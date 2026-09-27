@@ -58,6 +58,30 @@ app.get("/api/products", (req, res) => {
 
 });
 
+app.get("/api/products/:id", (req, res) => {
+    const productId = req.params.id;
+
+    db.get(
+        "SELECT * FROM products WHERE id = ?",
+        [productId],
+        (err, product) => {
+            if (err) {
+                return res.status(500).json({
+                    message: "Database error."
+                });
+            }
+
+            if (!product) {
+                return res.status(404).json({
+                    message: "Product not found."
+                });
+            }
+
+            res.json(product);
+        }
+    );
+});
+
 
 // =========================
 // REGISTER USER
