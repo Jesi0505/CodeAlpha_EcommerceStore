@@ -54,24 +54,116 @@
 
 
     <!-- JavaScript -->
-    <script>
+<script>
 
-        function addToCart(name, price) {
+    const API_URL =
+        "https://super-duper-space-waffle-96j5px6q9q4rcx5qx-3000.app.github.dev";
 
-            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+    const productContainer =
+        document.getElementById("productContainer");
 
-            cart.push({
-                name: name,
-                price: price
+
+    async function loadProducts() {
+
+        try {
+
+            const response =
+                await fetch(`${API_URL}/api/products`);
+
+            const products =
+                await response.json();
+
+
+            productContainer.innerHTML = "";
+
+
+            products.forEach(product => {
+
+                const card =
+                    document.createElement("div");
+
+                card.className = "product-card";
+
+
+                card.innerHTML = `
+
+                    <img
+                        src="${product.image}"
+                        alt="${product.name}">
+
+                    <h3>${product.name}</h3>
+
+                    <p>
+                        ₹${Number(product.price)
+                            .toLocaleString("en-IN")}
+                    </p>
+
+                    <button
+                        onclick="addToCart(
+                            ${product.id},
+                            '${product.name.replace(/'/g, "\\'")}',
+                            ${product.price}
+                        )">
+                        Add to Cart
+                    </button>
+
+                `;
+
+
+                productContainer.appendChild(card);
+
             });
 
-            localStorage.setItem("cart", JSON.stringify(cart));
+        } catch (error) {
 
-            alert(name + " added to cart!");
+            console.error(error);
+
+            productContainer.innerHTML = `
+                <p>
+                    Unable to load products.
+                    Please try again.
+                </p>
+            `;
 
         }
 
-    </script>
+    }
+
+
+    function addToCart(id, name, price) {
+
+        let cart =
+            JSON.parse(
+                localStorage.getItem("cart")
+            ) || [];
+
+
+        cart.push({
+
+            product_id: id,
+            name: name,
+            price: price,
+            quantity: 1
+
+        });
+
+
+        localStorage.setItem(
+            "cart",
+            JSON.stringify(cart)
+        );
+
+
+        alert(
+            name + " added to cart!"
+        );
+
+    }
+
+
+    loadProducts();
+
+</script>
 
 </body>
 
