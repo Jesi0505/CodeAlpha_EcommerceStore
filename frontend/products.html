@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Products | CodeAlpha Store</title>
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <!-- Navigation -->
+    <header>
+        <nav class="navbar">
+
+            <h1>CodeAlpha Store</h1>
+
+            <div class="nav-links">
+                <a href="index.html">Home</a>
+                <a href="products.html">Products</a>
+                <a href="cart.html">Cart 🛒</a>
+                <a href="login.html">Login</a>
+            </div>
+
+        </nav>
+    </header>
+
+
+    <!-- Products Section -->
+    <main>
+
+        <section class="featured">
+
+            <h2>Our Products</h2>
+
+            <div class="product-container">
+
+                <!-- Product 1 -->
+                <div class="product-card">
+
+                    <img
+                        src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500"
+                        alt="Running Shoes">
+
+                    <h3>Running Shoes</h3>
+
+                    <p>₹1,999</p>
+
+                    <button onclick="addToCart('Running Shoes', 1999)">
+                        Add to Cart
+                    </button>
+
+                </div>
+
+
+                <!-- Product 2 -->
+                <div class="product-card">
+
+                    <img
+                        src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500"
+                        alt="Smart Watch">
+
+                    <h3>Smart Watch</h3>
+
+                    <p>₹2,499</p>
+
+                    <button onclick="addToCart('Smart Watch', 2499)">
+                        Add to Cart
+                    </button>
+
+                </div>
+
+
+                <!-- Product 3 -->
+                <div class="product-card">
+
+                    <img
+                        src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500"
+                        alt="Headphones">
+
+                    <h3>Wireless Headphones</h3>
+
+                    <p>₹1,499</p>
+
+                    <button onclick="addToCart('Wireless Headphones', 1499)">
+                        Add to Cart
+                    </button>
+
+                </div>
+
+
+                <!-- Product 4 -->
+                <div class="product-card">
+
+                    <img
+                        src="https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=500"
+                        alt="Camera">
+
+                    <h3>Digital Camera</h3>
+
+                    <p>₹8,999</p>
+
+                    <button onclick="addToCart('Digital Camera', 8999)">
+                        Add to Cart
+                    </button>
+
+                </div>
+
+
+                <!-- Product 5 -->
+                <div class="product-card">
+
+                    <img
+                        src="https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=500"
+                        alt="Tablet">
+
+                    <h3>Android Tablet</h3>
+
+                    <p>₹12,999</p>
+
+                    <button onclick="addToCart('Android Tablet', 12999)">
+                        Add to Cart
+                    </button>
+
+                </div>
+
+
+                <!-- Product 6 -->
+                <div class="product-card">
+
+                    <img
+                        src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=500"
+                        alt="Laptop">
+
+                    <h3>Laptop</h3>
+
+                    <p>₹54,999</p>
+
+                    <button onclick="addToCart('Laptop', 54999)">
+                        Add to Cart
+                    </button>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- Footer -->
+    <footer>
+
+        <p>© 2026 CodeAlpha Store. All Rights Reserved.</p>
+
+    </footer>
+
+
+    <!-- JavaScript -->
+    <script>
+
+        function addToCart(name, price) {
+
+            let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+            cart.push({
+                name: name,
+                price: price
+            });
+
+            localStorage.setItem("cart", JSON.stringify(cart));
+
+            alert(name + " added to cart!");
+
+        }
+
+    </script>
+
+</body>
+
+</html>
