@@ -224,55 +224,98 @@
     </footer>
 
 
-    <script>
+ <script>
 
-        document
-            .getElementById("registerForm")
-            .addEventListener("submit", function(event) {
+    document
+        .getElementById("registerForm")
+        .addEventListener("submit", async function(event) {
 
-                event.preventDefault();
+            event.preventDefault();
 
-                const name =
-                    document.getElementById("name").value;
+            const name =
+                document.getElementById("name").value;
 
-                const email =
-                    document.getElementById("email").value;
+            const email =
+                document.getElementById("email").value;
 
-                const password =
-                    document.getElementById("password").value;
+            const password =
+                document.getElementById("password").value;
 
-                const confirmPassword =
-                    document.getElementById("confirmPassword").value;
+            const confirmPassword =
+                document.getElementById("confirmPassword").value;
 
-                const message =
-                    document.getElementById("message");
+            const message =
+                document.getElementById("message");
 
 
-                if (password !== confirmPassword) {
+            // Check passwords
+            if (password !== confirmPassword) {
+
+                message.textContent =
+                    "Passwords do not match.";
+
+                message.style.color = "#dc2626";
+
+                return;
+            }
+
+
+            try {
+
+                const response = await fetch(
+                    "YOUR_BACKEND_URL/api/register",
+                    {
+                        method: "POST",
+
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+
+                        body: JSON.stringify({
+                            name: name,
+                            email: email,
+                            password: password
+                        })
+                    }
+                );
+
+
+                const data = await response.json();
+
+
+                if (response.ok) {
 
                     message.textContent =
-                        "Passwords do not match.";
+                        "Registration successful!";
+
+                    message.style.color = "#16a34a";
+
+                    document
+                        .getElementById("registerForm")
+                        .reset();
+
+                } else {
+
+                    message.textContent =
+                        data.message || "Registration failed.";
 
                     message.style.color = "#dc2626";
 
-                    return;
                 }
 
 
-                /*
-                 * Temporary frontend validation.
-                 * This will be connected to the
-                 * Express.js backend later.
-                 */
+            } catch (error) {
 
                 message.textContent =
-                    "Registration will be connected to the server.";
+                    "Unable to connect to the server.";
 
-                message.style.color = "#2563eb";
+                message.style.color = "#dc2626";
 
-            });
+            }
 
-    </script>
+        });
+
+</script>
 
 </body>
 
