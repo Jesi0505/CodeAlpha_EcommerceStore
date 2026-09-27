@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Product Details | CodeAlpha Store</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        .product-details {
+            padding: 60px 8%;
+            min-height: 600px;
+        }
+
+        .product-detail-card {
+            max-width: 900px;
+            margin: auto;
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .product-detail-card img {
+            width: 100%;
+            max-height: 400px;
+            object-fit: contain;
+            border-radius: 10px;
+        }
+
+        .product-info h2 {
+            font-size: 32px;
+            margin-bottom: 15px;
+        }
+
+        .product-price {
+            font-size: 26px;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .product-description {
+            color: #555;
+            line-height: 1.7;
+            margin-bottom: 25px;
+        }
+
+        .add-cart-btn {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 13px 25px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .add-cart-btn:hover {
+            background: #1d4ed8;
+        }
+
+        .loading {
+            text-align: center;
+            font-size: 20px;
+        }
+
+        @media (max-width: 700px) {
+            .product-detail-card {
+                grid-template-columns: 1fr;
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <nav class="navbar">
+
+        <h1>CodeAlpha Store</h1>
+
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="products.html">Products</a>
+            <a href="cart.html">Cart 🛒</a>
+            <a href="orders.html">My Orders</a>
+        </div>
+
+    </nav>
+</header>
+
+
+<main>
+
+    <section class="product-details">
+
+        <div id="productContainer">
+            <p class="loading">Loading product...</p>
+        </div>
+
+    </section>
+
+</main>
+
+
+<footer>
+    <p>© 2026 CodeAlpha Store. All Rights Reserved.</p>
+</footer>
+
+
+<script>
+
+const API_URL =
+    "https://super-duper-space-waffle-96j5px6q9q4rcx5qx-3000.app.github.dev";
+
+const productContainer =
+    document.getElementById("productContainer");
+
+
+const params = new URLSearchParams(window.location.search);
+
+const productId = params.get("id");
+
+
+async function loadProduct() {
+
+    if (!productId) {
+
+        productContainer.innerHTML = `
+            <div class="product-detail-card">
+                <div class="product-info">
+                    <h2>Product not found</h2>
+                    <p>Please select a product from the products page.</p>
+                    <br>
+                    <a href="products.html" class="btn">
+                        Back to Products
+                    </a>
+                </div>
+            </div>
+        `;
+
+        return;
+    }
+
+
+    try {
+
+        const response =
+            await fetch(`${API_URL}/api/products/${productId}`);
+
+        const product =
+            await response.json();
+
+
+        if (!response.ok) {
+
+            productContainer.innerHTML = `
+                <div class="product-detail-card">
+                    <div class="product-info">
+                        <h2>Product not found</h2>
+                        <a href="products.html" class="btn">
+                            Back to Products
+                        </a>
+                    </div>
+                </div>
+            `;
+
+            return;
+        }
+
+
+        productContainer.innerHTML = `
+
+            <div class="product-detail-card">
+
+                <img
+                    src="${product.image}"
+                    alt="${product.name}"
+                >
+
+                <div class="product-info">
+
+                    <h2>${product.name}</h2>
+
+                    <p class="product-price">
+                        ₹${Number(product.price).toLocaleString("en-IN")}
+                    </p>
+
+                    <p class="product-description">
+                        ${product.description}
+                    </p>
+
+                    <button
+                        class="add-cart-btn"
+                        onclick="addToCart(
+                            ${product.id},
+                            '${product.name.replace(/'/g, "\\'")}',
+                            ${product.price}
+                        )"
+                    >
+                        Add to Cart 🛒
+                    </button>
+
+                    <br><br>
+
+                    <a href="products.html">
+                        ← Back to Products
+                    </a>
+
+                </div>
+
+            </div>
+
+        `;
+
+    } catch (error) {
+
+        console.error(error);
+
+        productContainer.innerHTML = `
+            <div class="product-detail-card">
+                <div class="product-info">
+                    <h2>Unable to load product</h2>
+                    <p>Please check the server connection.</p>
+                </div>
+            </div>
+        `;
+    }
+}
+
+
+function addToCart(id, name, price) {
+
+    let cart =
+        JSON.parse(localStorage.getItem("cart")) || [];
+
+
+    cart.push({
+
+        product_id: id,
+        name: name,
+        price: price,
+        quantity: 1
+
+    });
+
+
+    localStorage.setItem(
+        "cart",
+        JSON.stringify(cart)
+    );
+
+
+    alert(name + " added to cart!");
+}
+
+
+loadProduct();
+
+</script>
+
+</body>
+</html>
