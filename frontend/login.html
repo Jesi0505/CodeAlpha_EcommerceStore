@@ -192,7 +192,7 @@
     </footer>
 
 
-    <script>
+<script>
 
     document
         .getElementById("loginForm")
@@ -234,33 +234,27 @@
 
                 if (response.ok) {
 
-                    // Save JWT token
                     localStorage.setItem(
                         "token",
                         data.token
                     );
 
-                    // Save user information
                     localStorage.setItem(
                         "user",
                         JSON.stringify(data.user)
                     );
-
 
                     message.textContent =
                         "Login successful!";
 
                     message.style.color = "#16a34a";
 
-
-                    // Go to products page
-                    setTimeout(() => {
+                    setTimeout(function() {
 
                         window.location.href =
                             "products.html";
 
                     }, 1000);
-
 
                 } else {
 
@@ -271,7 +265,6 @@
                     message.style.color = "#dc2626";
 
                 }
-
 
             } catch (error) {
 
