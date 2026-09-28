@@ -1,7 +1,7 @@
 {
-  "name": "codealpha-social-media-backend",
+  "name": "codealpha-ecommerce-backend",
   "version": "1.0.0",
-  "description": "Backend API for CodeAlpha Social Media Platform",
+  "description": "Backend API for CodeAlpha E-commerce Store",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
